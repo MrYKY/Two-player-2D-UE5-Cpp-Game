@@ -3,6 +3,8 @@
 
 #include "HGameModeBase.h"
 
+#include "Blueprint/UserWidget.h"
+
 AHGameModeBase::AHGameModeBase()
 {
 	// Bind the StartNewRound function to the OnTryStartNewRound event
@@ -23,5 +25,8 @@ void AHGameModeBase::StartNewRound()
 
 void AHGameModeBase::EndGame()
 {
-	
+	GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Cyan,
+		FString::Printf(TEXT("Game Over!")));
+	GameEndWidgetInstance = CreateWidget<UUserWidget>(GetWorld(), GameEndWidget);
+	GameEndWidgetInstance->
 }

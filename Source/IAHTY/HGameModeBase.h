@@ -27,16 +27,7 @@ class IAHTY_API AHGameModeBase : public AGameModeBase
 	GENERATED_BODY()
 	
 public:
-
-	// Constructor
-	AHGameModeBase();
 	
-	UFUNCTION(BlueprintCallable, Category="Game")
-	void StartNewRound();
-	
-	UFUNCTION(BlueprintCallable, Category="Game")
-	void EndGame();
-
 	UPROPERTY(BlueprintAssignable, Category="Game")
 	FOnTurnEndDelegate OnTurnEnd;
 
@@ -50,6 +41,23 @@ public:
 	// 最大回合数 MaxRounds
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Game State")
 	int32 MaxRounds = MAX_ROUND;
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "UI")
+	TSubclassOf<UUserWidget> GameEndWidget;
+
+	// 存储Widget实例的指针
+	UPROPERTY(BlueprintReadOnly, Category = "UI")
+	UUserWidget* GameEndWidgetInstance;
+
+	// Constructor
+	AHGameModeBase();
+	
+	UFUNCTION(BlueprintCallable, Category="Game")
+	void StartNewRound();
+	
+	UFUNCTION(BlueprintCallable, Category="Game")
+	void EndGame();
+
 
 	// 初始化游戏的状态 
 	virtual void BeginPlay() override;
