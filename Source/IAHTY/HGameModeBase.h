@@ -20,6 +20,7 @@
 // Delegates
 DECLARE_DYNAMIC_MULTICAST_DELEGATE(FOnTurnEndDelegate);
 DECLARE_DYNAMIC_MULTICAST_DELEGATE(FOnGameEndDelegate);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE(FOnGameRetartDelegate);
 
 UCLASS()
 class IAHTY_API AHGameModeBase : public AGameModeBase
@@ -33,6 +34,9 @@ public:
 
 	UPROPERTY(BlueprintAssignable, Category="Game")
 	FOnGameEndDelegate OnGameEnd;
+
+	UPROPERTY(BlueprintAssignable, Category="Game")
+	FOnGameRetartDelegate OnGameRestart;
 	
 	// 当前回合数 CurrentRound
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category="Game State")
@@ -41,22 +45,19 @@ public:
 	// 最大回合数 MaxRounds
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Game State")
 	int32 MaxRounds = MAX_ROUND;
-
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "UI")
-	TSubclassOf<UUserWidget> GameEndWidget;
-
-	// 存储Widget实例的指针
-	UPROPERTY(BlueprintReadOnly, Category = "UI")
-	UUserWidget* GameEndWidgetInstance;
+	
 
 	// Constructor
 	AHGameModeBase();
-	
-	UFUNCTION(BlueprintCallable, Category="Game")
+
+	UFUNCTION()
 	void StartNewRound();
 	
-	UFUNCTION(BlueprintCallable, Category="Game")
+	UFUNCTION()
 	void EndGame();
+	
+	UFUNCTION()
+	void RestartGame();
 
 
 	// 初始化游戏的状态 

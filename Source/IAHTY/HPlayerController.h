@@ -27,6 +27,7 @@ public:
 	
 	AHPlayerController();
 	virtual void BeginPlay() override;
+	virtual void PostInitializeComponents() override;
 	void TryStartNewRound();
 	void TryEndGame();
 
@@ -50,8 +51,11 @@ public:
 	
 	UFUNCTION(BlueprintCallable, Category = "Player Actions")
 	void BConsume();
-
+	
+	UFUNCTION()
+	void RestartGame();
+	
 	void SettleConditions();
 	void SetPlayerState(EPlayerIndex PlayerIndex, EPlayerTurnState NewState);
-	
+
 };

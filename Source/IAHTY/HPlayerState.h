@@ -6,6 +6,13 @@
 #include "GameFramework/PlayerState.h"
 #include "HPlayerState.generated.h"
 
+#define INIT_MONEY 3000
+#define INIT_LIFE_HAPPINESS_INDEX 100
+#define INIT_SHORT_TERM_HAPPINESS_INDEX 1000
+#define INIT_ACCUMULATION_RATIO 0.1
+#define INIT_WORKING_ABILITY 0
+#define INIT_LEARNING_ABILITY 1000
+
 
 UENUM(BlueprintType)
 enum class EPlayerIndex : uint8
@@ -38,27 +45,27 @@ struct FPlayerInfo
 	
 	// 生活幸福指数
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category="Player Stats")
-	float LifeHappinessIndex = 100;
+	float LifeHappinessIndex = INIT_LIFE_HAPPINESS_INDEX;
 
 	// 短期幸福指数
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category="Player Stats")
-	float ShortTermHappinessIndex = 1000;
+	float ShortTermHappinessIndex = INIT_SHORT_TERM_HAPPINESS_INDEX;
 
 	// 积累比率
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category="Player Stats")
-	float AccumulationRatio = 0.1;
+	float AccumulationRatio = INIT_ACCUMULATION_RATIO;
 
 	// 玩家所拥有的金钱
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category="Player Stats")
-	float Money = 3000;
+	float Money = INIT_MONEY;
 
 	// 工作能力
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category="Player Stats")
-	float WorkingAbility = 0;
+	float WorkingAbility = INIT_WORKING_ABILITY;
 
 	// 学习能力
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category="Player Stats")
-	float LearningAbility = 1000;
+	float LearningAbility = INIT_LEARNING_ABILITY;
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Player Stats")
 	EPlayerTurnState TurnState = EPlayerTurnState::NotDone;
@@ -92,6 +99,7 @@ public:
 	void SetActionChoice(EPlayerIndex PlayerIndex, EPlayerActionChoice NewChoice);
 	EPlayerActionChoice GetActionChoice(EPlayerIndex PlayerIndex);
 	void SetActionChoice(FPlayerInfo* PlayerA, EPlayerActionChoice NewChoice);
+	void Reset() override;
 	// 其他修改器函数...
 	
 };

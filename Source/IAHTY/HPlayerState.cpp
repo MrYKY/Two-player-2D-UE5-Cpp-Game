@@ -57,3 +57,25 @@ EPlayerActionChoice AHPlayerState::GetActionChoice(EPlayerIndex PlayerIndex)
 	}
 	return EPlayerActionChoice::Tbd;
 }
+
+void AHPlayerState::Reset()
+{
+	Super::Reset();
+	
+	PlayerA.Money = INIT_MONEY;
+	PlayerA.LifeHappinessIndex = INIT_LIFE_HAPPINESS_INDEX;
+	PlayerA.ShortTermHappinessIndex = INIT_SHORT_TERM_HAPPINESS_INDEX;
+	PlayerA.WorkingAbility = INIT_WORKING_ABILITY;
+	PlayerA.LearningAbility = INIT_LEARNING_ABILITY;
+	PlayerA.TurnState = EPlayerTurnState::NotDone;
+	PlayerA.ActionChoice = EPlayerActionChoice::Tbd;
+	
+	PlayerB.Money = INIT_MONEY;
+	PlayerB.LifeHappinessIndex = INIT_LIFE_HAPPINESS_INDEX;
+	PlayerB.ShortTermHappinessIndex = INIT_SHORT_TERM_HAPPINESS_INDEX;
+	PlayerB.WorkingAbility = INIT_WORKING_ABILITY;
+	PlayerB.LearningAbility = INIT_LEARNING_ABILITY;
+	PlayerB.TurnState = EPlayerTurnState::NotDone;
+	PlayerB.ActionChoice = EPlayerActionChoice::Tbd;
+	
+}
