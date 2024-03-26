@@ -32,12 +32,11 @@ public:
 	UFUNCTION(BlueprintCallable, Category="Game")
 	void StartNewRound();
 
-	bool IsTurnEnd();
+	void EndGame();
 
 	UPROPERTY(BlueprintAssignable, Category="Game")
 	FOnTurnEndDelegate OnTurnEnd;
 	
-protected:
 	// 当前回合数 CurrentRound
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category="Game State")
 	int32 CurrentRound = 0;

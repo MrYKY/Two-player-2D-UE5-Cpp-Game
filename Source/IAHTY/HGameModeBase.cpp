@@ -19,3 +19,7 @@ void AHGameModeBase::StartNewRound()
 {
 	CurrentRound += 1;
 }
+
+void AHGameModeBase::EndGame()
+{
+}
