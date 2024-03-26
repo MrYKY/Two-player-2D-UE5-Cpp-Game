@@ -28,5 +28,6 @@ void AHGameModeBase::EndGame()
 	GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Cyan,
 		FString::Printf(TEXT("Game Over!")));
 	GameEndWidgetInstance = CreateWidget<UUserWidget>(GetWorld(), GameEndWidget);
-	GameEndWidgetInstance->
+	GameEndWidgetInstance->AddToViewport();
+	
 }

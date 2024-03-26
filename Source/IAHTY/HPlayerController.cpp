@@ -21,20 +21,7 @@ void AHPlayerController::BeginPlay()
 	
 	HGameMode->OnTurnEnd.AddDynamic(this, &AHPlayerController::UpdateHappinessIndex);
 	
-	// Create the main UI widget
-	if (IsLocalController() && MainUIWidgetClass != nullptr)
-	{
-		// 创建Widget实例
-		MainUIWidgetInstance = CreateWidget<UUserWidget>(this, MainUIWidgetClass);
-
-		if (MainUIWidgetInstance != nullptr)
-		{
-			// 将Widget添加到视口
-			MainUIWidgetInstance->AddToViewport();
-		}
-	}
 	bShowMouseCursor = true;
-
 	// 设置输入模式，使玩家可以与UI交互，但不捕获鼠标
 	FInputModeGameAndUI InputModeData;
 	InputModeData.SetLockMouseToViewportBehavior(EMouseLockMode::DoNotLock);

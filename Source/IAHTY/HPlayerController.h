@@ -18,12 +18,6 @@ class IAHTY_API AHPlayerController : public APlayerController
 	GENERATED_BODY()
 public:
 	
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "UI")
-	TSubclassOf<UUserWidget> MainUIWidgetClass;
-
-	// 存储Widget实例的指针
-	UPROPERTY(BlueprintReadOnly, Category = "UI")
-	UUserWidget* MainUIWidgetInstance;
 
 	UPROPERTY(BlueprintReadOnly, Category = "Player State")
 	AHPlayerState* HPlayerState;
