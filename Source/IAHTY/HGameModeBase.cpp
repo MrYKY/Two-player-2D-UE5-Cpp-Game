@@ -7,6 +7,7 @@ AHGameModeBase::AHGameModeBase()
 {
 	// Bind the StartNewRound function to the OnTryStartNewRound event
 	OnTurnEnd.AddDynamic(this, &AHGameModeBase::StartNewRound);
+	OnGameEnd.AddDynamic(this,&AHGameModeBase::EndGame);
 }
 
 void AHGameModeBase::BeginPlay()
@@ -22,4 +23,5 @@ void AHGameModeBase::StartNewRound()
 
 void AHGameModeBase::EndGame()
 {
+	
 }

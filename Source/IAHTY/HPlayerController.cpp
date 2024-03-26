@@ -57,6 +57,23 @@ void AHPlayerController::TryStartNewRound()
 	}
 }
 
+void AHPlayerController::TryEndGame()
+{
+	if(HPlayerState->PlayerA.LifeHappinessIndex <= 0 || HPlayerState->PlayerB.LifeHappinessIndex <= 0)
+	{
+		HGameMode->OnGameEnd.Broadcast();
+	}
+	if(HGameMode->CurrentRound==MAX_ROUND)
+	{
+		HGameMode->OnGameEnd.Broadcast();
+	}
+}
+
+void AHPlayerController::SetPlayerState(EPlayerIndex PlayerIndex, EPlayerTurnState NewState)
+{
+	
+}
+
 void AHPlayerController::UpdateHappinessIndex()
 {
 	HPlayerState->AddLifeHappinessIndex(&HPlayerState->PlayerA,

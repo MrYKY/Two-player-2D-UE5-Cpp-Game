@@ -15,9 +15,11 @@
 #define WORKING_HAPPINESS_CUT 500
 #define BASIC_CONSUME_HAPPINES_GET 500
 #define FAIL_TO_CONSUME_PUNISH 500
+#define MAX_ROUND 50
 
 // Delegates
 DECLARE_DYNAMIC_MULTICAST_DELEGATE(FOnTurnEndDelegate);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE(FOnGameEndDelegate);
 
 UCLASS()
 class IAHTY_API AHGameModeBase : public AGameModeBase
@@ -31,19 +33,23 @@ public:
 	
 	UFUNCTION(BlueprintCallable, Category="Game")
 	void StartNewRound();
-
+	
+	UFUNCTION(BlueprintCallable, Category="Game")
 	void EndGame();
 
 	UPROPERTY(BlueprintAssignable, Category="Game")
 	FOnTurnEndDelegate OnTurnEnd;
+
+	UPROPERTY(BlueprintAssignable, Category="Game")
+	FOnGameEndDelegate OnGameEnd;
 	
 	// 当前回合数 CurrentRound
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category="Game State")
-	int32 CurrentRound = 0;
+	int32 CurrentRound = 1;
 
 	// 最大回合数 MaxRounds
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Game State")
-	int32 MaxRounds = 50;
+	int32 MaxRounds = MAX_ROUND;
 
 	// 初始化游戏的状态 
 	virtual void BeginPlay() override;

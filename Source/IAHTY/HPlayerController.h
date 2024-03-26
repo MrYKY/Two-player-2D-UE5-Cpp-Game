@@ -34,6 +34,7 @@ public:
 	AHPlayerController();
 	virtual void BeginPlay() override;
 	void TryStartNewRound();
+	void TryEndGame();
 
 	UFUNCTION(BlueprintCallable, Category = "Player State")
 	void UpdateHappinessIndex();

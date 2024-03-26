@@ -38,7 +38,7 @@ struct FPlayerInfo
 	
 	// 生活幸福指数
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category="Player Stats")
-	float LifeHappinessIndex = 0;
+	float LifeHappinessIndex = 100;
 
 	// 短期幸福指数
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category="Player Stats")
