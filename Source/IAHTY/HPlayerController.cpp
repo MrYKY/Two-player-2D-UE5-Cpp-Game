@@ -241,6 +241,14 @@ void AHPlayerController::BConsume()
 	TryEndGame();
 }
 
+void AHPlayerController::BuyItem(EPlayerIndex Player ,FName ItemName)
+{
+	AHItem* NewItem =  NewObject<AHItem>(this, AHItem::StaticClass());
+	NewItem->InitializeItem(ItemName);
+	HPlayerState->AddMoney(Player,NewItem->ItemBaseInfo.Price);
+	HPlayerState->AddItem(Player, NewItem);
+}
+
 void AHPlayerController::SettleConditions()
 {
 	if (HPlayerState->GetActionChoice(EPlayerIndex::PlayerA) == EPlayerActionChoice::Work)
@@ -248,25 +256,25 @@ void AHPlayerController::SettleConditions()
 		switch (HPlayerState->GetActionChoice(EPlayerIndex::PlayerB))
 		{
 		case EPlayerActionChoice::Work:
-			HPlayerState->AddMoney(&HPlayerState->PlayerA, HPlayerState->PlayerA.WorkingAbility);
+			HPlayerState->AddMoney(EPlayerIndex::PlayerA, HPlayerState->PlayerA.WorkingAbility);
 			HPlayerState->AddShortTermHappinessIndex(&HPlayerState->PlayerA, -WORKING_HAPPINESS_CUT);
 
-			HPlayerState->AddMoney(&HPlayerState->PlayerB, HPlayerState->PlayerB.WorkingAbility);
+			HPlayerState->AddMoney(EPlayerIndex::PlayerB, HPlayerState->PlayerB.WorkingAbility);
 			HPlayerState->AddShortTermHappinessIndex(&HPlayerState->PlayerB, -WORKING_HAPPINESS_CUT);
 			break;
 
 		case EPlayerActionChoice::Study:
-			HPlayerState->AddMoney(&HPlayerState->PlayerA, HPlayerState->PlayerA.WorkingAbility);
+			HPlayerState->AddMoney(EPlayerIndex::PlayerA, HPlayerState->PlayerA.WorkingAbility);
 			HPlayerState->AddShortTermHappinessIndex(&HPlayerState->PlayerA, -WORKING_HAPPINESS_CUT);
 
 			HPlayerState->AddWorkingAbility(&HPlayerState->PlayerB, HPlayerState->PlayerB.LearningAbility);
 			HPlayerState->AddShortTermHappinessIndex(&HPlayerState->PlayerB, -LEARNING_HAPPINESS_CUT);
 			break;
 		case EPlayerActionChoice::Consume:
-			HPlayerState->AddMoney(&HPlayerState->PlayerA, HPlayerState->PlayerA.WorkingAbility);
+			HPlayerState->AddMoney(EPlayerIndex::PlayerA, HPlayerState->PlayerA.WorkingAbility);
 			HPlayerState->AddShortTermHappinessIndex(&HPlayerState->PlayerA, -2 * WORKING_HAPPINESS_CUT);
 
-			HPlayerState->AddMoney(&HPlayerState->PlayerB, -BASIC_CONSUME_COST);
+			HPlayerState->AddMoney(EPlayerIndex::PlayerB, -BASIC_CONSUME_COST);
 			HPlayerState->AddShortTermHappinessIndex(&HPlayerState->PlayerB, BASIC_CONSUME_HAPPINES_GET);
 			break;
 
@@ -281,7 +289,7 @@ void AHPlayerController::SettleConditions()
 			HPlayerState->AddWorkingAbility(&HPlayerState->PlayerA, HPlayerState->PlayerA.LearningAbility);
 			HPlayerState->AddShortTermHappinessIndex(&HPlayerState->PlayerA, -LEARNING_HAPPINESS_CUT);
 
-			HPlayerState->AddMoney(&HPlayerState->PlayerB, HPlayerState->PlayerB.WorkingAbility);
+			HPlayerState->AddMoney(EPlayerIndex::PlayerB, HPlayerState->PlayerB.WorkingAbility);
 			HPlayerState->AddShortTermHappinessIndex(&HPlayerState->PlayerB, -WORKING_HAPPINESS_CUT);
 			break;
 
@@ -297,7 +305,7 @@ void AHPlayerController::SettleConditions()
 			HPlayerState->AddWorkingAbility(&HPlayerState->PlayerA, HPlayerState->PlayerA.LearningAbility);
 			HPlayerState->AddShortTermHappinessIndex(&HPlayerState->PlayerA, -2 * LEARNING_HAPPINESS_CUT);
 
-			HPlayerState->AddMoney(&HPlayerState->PlayerB, -BASIC_CONSUME_COST);
+			HPlayerState->AddMoney(EPlayerIndex::PlayerB, -BASIC_CONSUME_COST);
 			HPlayerState->AddShortTermHappinessIndex(&HPlayerState->PlayerB, BASIC_CONSUME_HAPPINES_GET);
 			break;
 
@@ -309,15 +317,15 @@ void AHPlayerController::SettleConditions()
 		switch (HPlayerState->GetActionChoice(EPlayerIndex::PlayerB))
 		{
 		case EPlayerActionChoice::Work:
-			HPlayerState->AddMoney(&HPlayerState->PlayerA, -BASIC_CONSUME_COST);
+			HPlayerState->AddMoney(EPlayerIndex::PlayerA, -BASIC_CONSUME_COST);
 			HPlayerState->AddShortTermHappinessIndex(&HPlayerState->PlayerA, BASIC_CONSUME_HAPPINES_GET);
 
-			HPlayerState->AddMoney(&HPlayerState->PlayerB, HPlayerState->PlayerB.WorkingAbility);
+			HPlayerState->AddMoney(EPlayerIndex::PlayerB, HPlayerState->PlayerB.WorkingAbility);
 			HPlayerState->AddShortTermHappinessIndex(&HPlayerState->PlayerB, -2 * WORKING_HAPPINESS_CUT);
 			break;
 
 		case EPlayerActionChoice::Study:
-			HPlayerState->AddMoney(&HPlayerState->PlayerA, -BASIC_CONSUME_COST);
+			HPlayerState->AddMoney(EPlayerIndex::PlayerA, -BASIC_CONSUME_COST);
 			HPlayerState->AddShortTermHappinessIndex(&HPlayerState->PlayerA, BASIC_CONSUME_HAPPINES_GET);
 
 			HPlayerState->AddWorkingAbility(&HPlayerState->PlayerB, HPlayerState->PlayerB.LearningAbility);
@@ -329,22 +337,22 @@ void AHPlayerController::SettleConditions()
 			{
 				HPlayerState->AddShortTermHappinessIndex(&HPlayerState->PlayerA, -FAIL_TO_CONSUME_PUNISH);
 
-				HPlayerState->AddMoney(&HPlayerState->PlayerB, -BASIC_CONSUME_COST);
+				HPlayerState->AddMoney(EPlayerIndex::PlayerB, -BASIC_CONSUME_COST);
 				HPlayerState->AddShortTermHappinessIndex(&HPlayerState->PlayerB, BASIC_CONSUME_HAPPINES_GET);
 			}
 			else if (HPlayerState->PlayerA.ShortTermHappinessIndex > HPlayerState->PlayerB.ShortTermHappinessIndex)
 			{
-				HPlayerState->AddMoney(&HPlayerState->PlayerA, -BASIC_CONSUME_COST);
+				HPlayerState->AddMoney(EPlayerIndex::PlayerA, -BASIC_CONSUME_COST);
 				HPlayerState->AddShortTermHappinessIndex(&HPlayerState->PlayerA, BASIC_CONSUME_HAPPINES_GET);
 
 				HPlayerState->AddShortTermHappinessIndex(&HPlayerState->PlayerB, -FAIL_TO_CONSUME_PUNISH);
 			}
 			else
 			{
-				HPlayerState->AddMoney(&HPlayerState->PlayerA, -BASIC_CONSUME_COST / 2);
+				HPlayerState->AddMoney(EPlayerIndex::PlayerA, -BASIC_CONSUME_COST / 2);
 				HPlayerState->AddShortTermHappinessIndex(&HPlayerState->PlayerA, BASIC_CONSUME_HAPPINES_GET / 2);
 
-				HPlayerState->AddMoney(&HPlayerState->PlayerB, -BASIC_CONSUME_COST / 2);
+				HPlayerState->AddMoney(EPlayerIndex::PlayerB, -BASIC_CONSUME_COST / 2);
 				HPlayerState->AddShortTermHappinessIndex(&HPlayerState->PlayerB, BASIC_CONSUME_HAPPINES_GET / 2);
 			}
 			break;

@@ -51,6 +51,9 @@ public:
 	
 	UFUNCTION(BlueprintCallable, Category = "Player Actions")
 	void BConsume();
+
+	UFUNCTION(BlueprintCallable, Category = "Player Actions")
+	void BuyItem(EPlayerIndex Player, FName ItemName);
 	
 	UFUNCTION()
 	void RestartGame();

@@ -34,6 +34,12 @@ public:
 	UPROPERTY(BlueprintReadOnly, Category = "UI")
 	UUserWidget* GameEndWidgetInstance;
 
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "UI")
+	TSubclassOf<UUserWidget> ShopWidgetClass;
+	
+	UPROPERTY(BlueprintReadOnly, Category = "UI")
+	UUserWidget* ShopWidgetInstance;
+
 	UPROPERTY(BlueprintReadOnly, Category = "Game Mode")
 	AHGameModeBase* HGameMode;
 

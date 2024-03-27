@@ -3,9 +3,16 @@
 
 #include "HPlayerState.h"
 
-void AHPlayerState::AddMoney(FPlayerInfo* Player, float Amount)
+void AHPlayerState::AddMoney(EPlayerIndex Player, float Amount)
 {
-	Player->Money += Amount;
+	if(Player == EPlayerIndex::PlayerA)
+	{
+		PlayerA.Money += Amount;
+	}
+	if(Player == EPlayerIndex::PlayerB)
+	{
+		PlayerB.Money += Amount;
+	}
 }
 
 void AHPlayerState::AddLifeHappinessIndex(FPlayerInfo* Player, float Amount)
@@ -79,3 +86,28 @@ void AHPlayerState::Reset()
 	PlayerB.ActionChoice = EPlayerActionChoice::Tbd;
 	
 }
+
+void AHPlayerState::AddItem(EPlayerIndex Player, AHItem* Item)
+{
+	if(Player == EPlayerIndex::PlayerA)
+	{
+		PlayerA.Items.Add(Item);
+	}
+	if(Player == EPlayerIndex::PlayerB)
+	{
+		PlayerB.Items.Add(Item);
+	}
+}
+
+void AHPlayerState::SetPlayerState(EPlayerIndex PlayerIndex, EPlayerTurnState NewState)
+{
+	if(PlayerIndex == EPlayerIndex::PlayerA)
+	{
+		PlayerA.TurnState = NewState;
+	}
+	if(PlayerIndex == EPlayerIndex::PlayerB)
+	{
+		PlayerB.TurnState = NewState;
+	}
+}
+

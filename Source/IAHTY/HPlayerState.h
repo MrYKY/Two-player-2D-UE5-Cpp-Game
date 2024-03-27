@@ -3,6 +3,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "HItem.h"
 #include "GameFramework/PlayerState.h"
 #include "HPlayerState.generated.h"
 
@@ -67,6 +68,9 @@ struct FPlayerInfo
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category="Player Stats")
 	float LearningAbility = INIT_LEARNING_ABILITY;
 
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category="Player Stats")
+	TArray<AHItem*> Items;
+
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Player Stats")
 	EPlayerTurnState TurnState = EPlayerTurnState::NotDone;
 
@@ -90,7 +94,7 @@ public:
 	
 	
 	// 可以添加函数来修改上述属性，例如：
-	void AddMoney(FPlayerInfo* Player, float Amount);
+	void AddMoney(EPlayerIndex Player, float Amount);
 	void AddLifeHappinessIndex(FPlayerInfo* Player, float Amount);
 	void AddShortTermHappinessIndex(FPlayerInfo* Player, float Amount);
 	void AddLearningAbility(FPlayerInfo* Player, float Amount);
@@ -98,8 +102,9 @@ public:
 	void SetTurnState(FPlayerInfo* Player, EPlayerTurnState NewState);
 	void SetActionChoice(EPlayerIndex PlayerIndex, EPlayerActionChoice NewChoice);
 	EPlayerActionChoice GetActionChoice(EPlayerIndex PlayerIndex);
-	void SetActionChoice(FPlayerInfo* PlayerA, EPlayerActionChoice NewChoice);
 	void Reset() override;
+	void AddItem(EPlayerIndex Player, AHItem* Item);
+	void SetPlayerState(EPlayerIndex PlayerIndex, EPlayerTurnState NewState);
 	// 其他修改器函数...
 	
 };
