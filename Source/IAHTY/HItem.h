@@ -41,6 +41,9 @@ struct FHItemInfo : public FTableRowBase
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Item")
 	ERarity ItemRarity;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Item")
+	bool HasUniqueEffect;
 };
 
 
@@ -53,6 +56,8 @@ class IAHTY_API AHItem : public AActor
 	GENERATED_BODY()
 	
 public:
+
+	AHItem();
 	
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Item Info")
 	FHItemInfo ItemBaseInfo;
@@ -61,10 +66,12 @@ public:
 	TArray<int32> HappinessStack;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Item Info")
-	TSubclassOf<UDataTable> ItemDataTableClass;
+	UDataTable* ItemDataTable;
 
 	UFUNCTION(BlueprintCallable)
 	void InitializeItem(FName ItemId);
+
+	
 
 protected:
 	void CalculateHappinessStack();

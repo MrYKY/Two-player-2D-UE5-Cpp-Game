@@ -13,16 +13,16 @@ void AHPlayerController::PostInitializeComponents()
 	Super::PostInitializeComponents();
 	// Get Player State
 	HPlayerState = Cast<AHPlayerState>(PlayerState);
-	// Get Game Mode
-	HGameMode = GetWorld()->GetAuthGameMode<AHGameModeBase>();
-	HGameMode->OnTurnEnd.AddDynamic(this, &AHPlayerController::UpdateHappinessIndex);
-	HGameMode->OnGameRestart.AddDynamic(this, &AHPlayerController::RestartGame);
-	
 }
 
 void AHPlayerController::BeginPlay()
 {
 	Super::BeginPlay();
+
+	// Get Game Mode
+	HGameMode = GetWorld()->GetAuthGameMode<AHGameModeBase>();
+	HGameMode->OnTurnEnd.AddDynamic(this, &AHPlayerController::UpdateHappinessIndex);
+	HGameMode->OnGameRestart.AddDynamic(this, &AHPlayerController::RestartGame);
 	
 	bShowMouseCursor = true;
 	// 设置输入模式，使玩家可以与UI交互，但不捕获鼠标
@@ -241,12 +241,12 @@ void AHPlayerController::BConsume()
 	TryEndGame();
 }
 
-void AHPlayerController::BuyItem(EPlayerIndex Player ,FName ItemName)
+void AHPlayerController::BuyItem(EPlayerIndex PlayerIndex ,FName ItemName)
 {
-	AHItem* NewItem =  NewObject<AHItem>(this, AHItem::StaticClass());
+	AHItem* NewItem = NewObject<AHItem>(this, ItemClass);
 	NewItem->InitializeItem(ItemName);
-	HPlayerState->AddMoney(Player,NewItem->ItemBaseInfo.Price);
-	HPlayerState->AddItem(Player, NewItem);
+	HPlayerState->AddMoney(PlayerIndex,NewItem->ItemBaseInfo.Price);
+	HPlayerState->AddItem(PlayerIndex, NewItem);
 }
 
 void AHPlayerController::SettleConditions()
@@ -274,8 +274,7 @@ void AHPlayerController::SettleConditions()
 			HPlayerState->AddMoney(EPlayerIndex::PlayerA, HPlayerState->PlayerA.WorkingAbility);
 			HPlayerState->AddShortTermHappinessIndex(&HPlayerState->PlayerA, -2 * WORKING_HAPPINESS_CUT);
 
-			HPlayerState->AddMoney(EPlayerIndex::PlayerB, -BASIC_CONSUME_COST);
-			HPlayerState->AddShortTermHappinessIndex(&HPlayerState->PlayerB, BASIC_CONSUME_HAPPINES_GET);
+			BuyItem(EPlayerIndex::PlayerB, "BasicConsume");
 			break;
 
 		default: break;
@@ -305,8 +304,7 @@ void AHPlayerController::SettleConditions()
 			HPlayerState->AddWorkingAbility(&HPlayerState->PlayerA, HPlayerState->PlayerA.LearningAbility);
 			HPlayerState->AddShortTermHappinessIndex(&HPlayerState->PlayerA, -2 * LEARNING_HAPPINESS_CUT);
 
-			HPlayerState->AddMoney(EPlayerIndex::PlayerB, -BASIC_CONSUME_COST);
-			HPlayerState->AddShortTermHappinessIndex(&HPlayerState->PlayerB, BASIC_CONSUME_HAPPINES_GET);
+			BuyItem(EPlayerIndex::PlayerB, "BasicConsume");
 			break;
 
 		default: break;
@@ -317,16 +315,14 @@ void AHPlayerController::SettleConditions()
 		switch (HPlayerState->GetActionChoice(EPlayerIndex::PlayerB))
 		{
 		case EPlayerActionChoice::Work:
-			HPlayerState->AddMoney(EPlayerIndex::PlayerA, -BASIC_CONSUME_COST);
-			HPlayerState->AddShortTermHappinessIndex(&HPlayerState->PlayerA, BASIC_CONSUME_HAPPINES_GET);
+			BuyItem(EPlayerIndex::PlayerA, "BasicConsume");
 
 			HPlayerState->AddMoney(EPlayerIndex::PlayerB, HPlayerState->PlayerB.WorkingAbility);
 			HPlayerState->AddShortTermHappinessIndex(&HPlayerState->PlayerB, -2 * WORKING_HAPPINESS_CUT);
 			break;
 
 		case EPlayerActionChoice::Study:
-			HPlayerState->AddMoney(EPlayerIndex::PlayerA, -BASIC_CONSUME_COST);
-			HPlayerState->AddShortTermHappinessIndex(&HPlayerState->PlayerA, BASIC_CONSUME_HAPPINES_GET);
+			BuyItem(EPlayerIndex::PlayerA, "BasicConsume");
 
 			HPlayerState->AddWorkingAbility(&HPlayerState->PlayerB, HPlayerState->PlayerB.LearningAbility);
 			HPlayerState->AddShortTermHappinessIndex(&HPlayerState->PlayerB, -2 * LEARNING_HAPPINESS_CUT);
@@ -337,29 +333,65 @@ void AHPlayerController::SettleConditions()
 			{
 				HPlayerState->AddShortTermHappinessIndex(&HPlayerState->PlayerA, -FAIL_TO_CONSUME_PUNISH);
 
-				HPlayerState->AddMoney(EPlayerIndex::PlayerB, -BASIC_CONSUME_COST);
-				HPlayerState->AddShortTermHappinessIndex(&HPlayerState->PlayerB, BASIC_CONSUME_HAPPINES_GET);
+				BuyItem(EPlayerIndex::PlayerB, "BasicConsume");
 			}
 			else if (HPlayerState->PlayerA.ShortTermHappinessIndex > HPlayerState->PlayerB.ShortTermHappinessIndex)
 			{
-				HPlayerState->AddMoney(EPlayerIndex::PlayerA, -BASIC_CONSUME_COST);
-				HPlayerState->AddShortTermHappinessIndex(&HPlayerState->PlayerA, BASIC_CONSUME_HAPPINES_GET);
+				BuyItem(EPlayerIndex::PlayerA, "BasicConsume");
 
 				HPlayerState->AddShortTermHappinessIndex(&HPlayerState->PlayerB, -FAIL_TO_CONSUME_PUNISH);
 			}
 			else
 			{
-				HPlayerState->AddMoney(EPlayerIndex::PlayerA, -BASIC_CONSUME_COST / 2);
-				HPlayerState->AddShortTermHappinessIndex(&HPlayerState->PlayerA, BASIC_CONSUME_HAPPINES_GET / 2);
+				BuyItem(EPlayerIndex::PlayerA, "BasicConsume");
 
-				HPlayerState->AddMoney(EPlayerIndex::PlayerB, -BASIC_CONSUME_COST / 2);
-				HPlayerState->AddShortTermHappinessIndex(&HPlayerState->PlayerB, BASIC_CONSUME_HAPPINES_GET / 2);
+				BuyItem(EPlayerIndex::PlayerB, "BasicConsume");
 			}
 			break;
 
 		default: break;
 		}
 	}
+	SettleItemEffects();
+	SettleItemUniqueEffects();
 	HPlayerState->SetActionChoice(EPlayerIndex::PlayerA, EPlayerActionChoice::Tbd);
 	HPlayerState->SetActionChoice(EPlayerIndex::PlayerB, EPlayerActionChoice::Tbd);
+}
+
+void AHPlayerController::SettleItemEffects()
+{
+	for (AHItem* Item : HPlayerState->PlayerA.Items)
+	{
+		if(Item->HappinessStack.Num()>0)
+		{
+			HPlayerState->AddShortTermHappinessIndex(&HPlayerState->PlayerA, Item->HappinessStack.Pop());
+		}
+		else
+		{
+			if(!Item->ItemBaseInfo.HasUniqueEffect)
+			{
+				HPlayerState->PlayerA.Items.Remove(Item);
+			}
+		}
+		
+	}
+	for (AHItem* Item : HPlayerState->PlayerB.Items)
+	{
+		if(Item->HappinessStack.Num()>0)
+		{
+			HPlayerState->AddShortTermHappinessIndex(&HPlayerState->PlayerB, Item->HappinessStack.Pop());
+		}
+		else
+		{
+			if(!Item->ItemBaseInfo.HasUniqueEffect)
+			{
+				HPlayerState->PlayerB.Items.Remove(Item);
+			}
+		}
+		
+	}
+}
+
+void AHPlayerController::SettleItemUniqueEffects()
+{
 }

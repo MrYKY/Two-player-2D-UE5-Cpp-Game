@@ -24,6 +24,9 @@ public:
 
 	UPROPERTY(BlueprintReadOnly, Category = "Game Mode")
 	AHGameModeBase* HGameMode;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Item Info")
+	TSubclassOf<AHItem> ItemClass;
 	
 	AHPlayerController();
 	virtual void BeginPlay() override;
@@ -53,12 +56,14 @@ public:
 	void BConsume();
 
 	UFUNCTION(BlueprintCallable, Category = "Player Actions")
-	void BuyItem(EPlayerIndex Player, FName ItemName);
+	void BuyItem(EPlayerIndex PlayerIndex, FName ItemName);
 	
 	UFUNCTION()
 	void RestartGame();
 	
 	void SettleConditions();
+	void SettleItemEffects();
+	void SettleItemUniqueEffects();
 	void SetPlayerState(EPlayerIndex PlayerIndex, EPlayerTurnState NewState);
 
 };

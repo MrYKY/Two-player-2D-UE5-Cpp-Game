@@ -3,9 +3,13 @@
 
 #include "HItem.h"
 
+
+AHItem::AHItem()
+{
+}
+
 void AHItem::InitializeItem(const FName ItemId)
 {
-	const UDataTable *ItemDataTable = ItemDataTableClass.GetDefaultObject();
 	if (ItemDataTable != nullptr)
 	{
 		const FHItemInfo* Info = ItemDataTable->FindRow<FHItemInfo>(ItemId, TEXT(""));
@@ -16,6 +20,8 @@ void AHItem::InitializeItem(const FName ItemId)
 		}
 	}
 }
+
+
 
 void AHItem::CalculateHappinessStack()
 {
