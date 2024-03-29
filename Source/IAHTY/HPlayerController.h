@@ -60,7 +60,8 @@ public:
 	
 	UFUNCTION()
 	void RestartGame();
-	
+
+	void EnterShop();
 	void SettleConditions();
 	void SettleItemEffects();
 	void SettleItemUniqueEffects();

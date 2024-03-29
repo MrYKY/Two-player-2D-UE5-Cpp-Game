@@ -68,6 +68,10 @@ void AHPlayerController::RestartGame()
 	HPlayerState->Reset();
 }
 
+void AHPlayerController::EnterShop()
+{
+}
+
 void AHPlayerController::UpdateHappinessIndex()
 {
 	HPlayerState->AddLifeHappinessIndex(&HPlayerState->PlayerA,
@@ -244,7 +248,7 @@ void AHPlayerController::BuyItem(EPlayerIndex PlayerIndex ,FName ItemName)
 {
 	AHItem* NewItem = NewObject<AHItem>(this, ItemClass);
 	NewItem->InitializeItem(ItemName);
-	HPlayerState->AddMoney(PlayerIndex,NewItem->ItemBaseInfo.Price);
+	HPlayerState->AddMoney(PlayerIndex,-NewItem->ItemBaseInfo.Price);
 	HPlayerState->AddItem(PlayerIndex, NewItem);
 }
 
