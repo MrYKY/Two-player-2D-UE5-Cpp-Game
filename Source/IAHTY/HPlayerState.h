@@ -5,14 +5,9 @@
 #include "CoreMinimal.h"
 #include "HItem.h"
 #include "GameFramework/PlayerState.h"
+#include "HGameModeBase.h"
 #include "HPlayerState.generated.h"
 
-#define INIT_MONEY 3000
-#define INIT_LIFE_HAPPINESS_INDEX 100
-#define INIT_SHORT_TERM_HAPPINESS_INDEX 1000
-#define INIT_ACCUMULATION_RATIO 0.1
-#define INIT_WORKING_ABILITY 0
-#define INIT_LEARNING_ABILITY 1000
 
 
 UENUM(BlueprintType)

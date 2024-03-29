@@ -2,7 +2,6 @@
 
 
 #include "HPlayerController.h"
-
 #include "HGameModeBase.h"
 
 AHPlayerController::AHPlayerController()

@@ -59,13 +59,13 @@ public:
 
 	AHItem();
 	
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Item Info")
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category="Item Info")
 	FHItemInfo ItemBaseInfo;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Item Info")
 	TArray<int32> HappinessStack;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Item Info")
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category="Item Info")
 	UDataTable* ItemDataTable;
 
 	UFUNCTION(BlueprintCallable)
