@@ -1,11 +1,14 @@
 # I A Happier Than You
+English Version
 
 <aside>
 💡 项目施工中
+
 </aside>
 
+目前可玩版本请下载main Branch
 
-English Version
+追踪最新开发进度请下载NewDev Branch
 
 这个项目是一个基于UE5 C++开发的双人本地回合制游戏原型框架，有基本的博弈机制可供完整游玩，同时适合初学UE5以及UE5 C++的同好学习入门。
 
