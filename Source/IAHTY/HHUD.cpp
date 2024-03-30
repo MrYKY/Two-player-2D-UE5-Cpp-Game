@@ -41,8 +41,6 @@ void AHHUD::BeginPlay()
 	}
 }
 
-
-
 void AHHUD::StartGame()
 {
 	if (MainUIWidgetInstance != nullptr)

@@ -44,6 +44,9 @@ struct FHItemInfo : public FTableRowBase
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Item")
 	bool HasUniqueEffect;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Item")
+	UTexture2D* ItemIcon;
 };
 
 

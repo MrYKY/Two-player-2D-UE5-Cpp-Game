@@ -91,7 +91,7 @@ public:
 	// 可以添加函数来修改上述属性，例如：
 	void AddMoney(EPlayerIndex Player, float Amount);
 	void AddLifeHappinessIndex(FPlayerInfo* Player, float Amount);
-	void AddShortTermHappinessIndex(FPlayerInfo* Player, float Amount);
+	void AddShortTermHappinessIndex(EPlayerIndex PlayerIndex, float Amount);
 	void AddLearningAbility(FPlayerInfo* Player, float Amount);
 	void AddWorkingAbility(FPlayerInfo* Player, float Amount);
 	void SetTurnState(FPlayerInfo* Player, EPlayerTurnState NewState);

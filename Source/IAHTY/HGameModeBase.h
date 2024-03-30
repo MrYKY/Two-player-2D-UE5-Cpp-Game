@@ -7,16 +7,17 @@
 #include "HGameModeBase.generated.h"
 
 /**
- * 
+ *
  */
 
+// Constants
 #define BASIC_CONSUME_COST 1000
 #define LEARNING_HAPPINESS_CUT 100
 #define WORKING_HAPPINESS_CUT 200
 #define BASIC_CONSUME_HAPPINES_GET 500
 #define FAIL_TO_CONSUME_PUNISH 500
 #define MAX_ROUND 50
-
+// Initial values
 #define INIT_MONEY 3000
 #define INIT_LIFE_HAPPINESS_INDEX 100
 #define INIT_SHORT_TERM_HAPPINESS_INDEX 1000
