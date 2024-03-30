@@ -20,9 +20,16 @@ void AHPlayerState::AddLifeHappinessIndex(FPlayerInfo* Player, float Amount)
 	Player->LifeHappinessIndex += Amount;
 }
 
-void AHPlayerState::AddShortTermHappinessIndex(FPlayerInfo* Player, float Amount)
+void AHPlayerState::AddShortTermHappinessIndex(EPlayerIndex PlayerIndex, float Amount)
 {
-	Player->ShortTermHappinessIndex += Amount;
+	if(PlayerIndex == EPlayerIndex::PlayerA)
+	{
+		PlayerA.ShortTermHappinessIndex += Amount;
+	}
+	if(PlayerIndex == EPlayerIndex::PlayerB)
+	{
+		PlayerB.ShortTermHappinessIndex += Amount;
+	}
 }
 
 void AHPlayerState::AddLearningAbility(FPlayerInfo* Player, float Amount)
@@ -76,6 +83,7 @@ void AHPlayerState::Reset()
 	PlayerA.LearningAbility = INIT_LEARNING_ABILITY;
 	PlayerA.TurnState = EPlayerTurnState::NotDone;
 	PlayerA.ActionChoice = EPlayerActionChoice::Tbd;
+	PlayerA.Items.Empty();
 	
 	PlayerB.Money = INIT_MONEY;
 	PlayerB.LifeHappinessIndex = INIT_LIFE_HAPPINESS_INDEX;
@@ -84,6 +92,7 @@ void AHPlayerState::Reset()
 	PlayerB.LearningAbility = INIT_LEARNING_ABILITY;
 	PlayerB.TurnState = EPlayerTurnState::NotDone;
 	PlayerB.ActionChoice = EPlayerActionChoice::Tbd;
+	PlayerB.Items.Empty();
 	
 }
 
@@ -110,4 +119,5 @@ void AHPlayerState::SetPlayerState(EPlayerIndex PlayerIndex, EPlayerTurnState Ne
 		PlayerB.TurnState = NewState;
 	}
 }
+
 
