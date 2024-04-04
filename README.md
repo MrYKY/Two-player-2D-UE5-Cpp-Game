@@ -1,5 +1,4 @@
 # I Am Happier Than You
-English Version
 
 目前可玩版本请下载main Branch
 
