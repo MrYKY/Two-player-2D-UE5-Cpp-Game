@@ -13,7 +13,7 @@ English Version
 
 本游戏是双人本地回合制游戏，如果您有游戏搭子或者足够无聊，本游戏有一个完整的数学框架提供了一个类似于桌游的游玩体验，具有一定的博弈性。游戏的设计思路以及基本规则，可在以下文档中查看：
 
-[I Am Happier Than You](https://www.notion.so/I-Am-Happier-Than-You-1a21dd7046bf48849d51ba5903ec01ab?pvs=21) 
+[I Am Happier Than You](https://yangkaiyuan.notion.site/I-Am-Happier-Than-You-1a21dd7046bf48849d51ba5903ec01ab?pvs=4) 
 
 ### AI辅助编程
 
@@ -21,7 +21,7 @@ English Version
 
 具体的开发记录可查看以下文档：
 
-[AI-assisted Game Prototyping](https://www.notion.so/AI-assisted-Game-Prototyping-9ce7b110bafd423da906774c602bcf9f?pvs=21)
+[AI-assisted Game Prototyping](https://yangkaiyuan.notion.site/AI-assisted-Game-Prototyping-9ce7b110bafd423da906774c602bcf9f?pvs=4)
 
 ### 合理解耦
 
